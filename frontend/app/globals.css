@@ -51,6 +51,21 @@ input {
   visibility: visible;
 }
 
+.loading-btn {
+  width: 120px;
+  height: 20px;
+  background:
+    linear-gradient(90deg, #0001 33%, #0005 50%, #0001 66%) #f2f2f2;
+  background-size: 300% 100%;
+  animation: loadingBtn 1s infinite linear;
+}
+
+@keyframes loadingBtn {
+  0% {
+    background-position: right
+  }
+}
+
 a {
   color: inherit;
   text-decoration: none;

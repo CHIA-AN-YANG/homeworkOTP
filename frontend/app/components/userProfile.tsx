@@ -1,24 +1,46 @@
+"use client";
+import Image from "next/image";
 import { useEffect } from 'react';
-import { useUserActions } from '../store/actions/userActions';
-import { useUser } from '../store/hooks/useUser';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from '../store/store';
+import { loadUser, getAuth } from '../store/features/user/actions/authActions';
+import { selectUser, selectStatus } from '../store/features/user/selectors/authSelectors';
 
 const UserProfile = () => {
-  const user = useUser();
-  const { getUser, logoutUser } = useUserActions();
+  const dispatch = useDispatch<AppDispatch>();
+  const user = useSelector(selectUser);
+  const loading = useSelector(selectStatus) === 'loading';
 
   useEffect(() => {
-    getUser();
-  }, []);
+    dispatch(loadUser());
+  }, [dispatch]);
 
-  if (user.loading) return <div>Loading...</div>;
-  if (user.error) return <div>Error: {user.error}</div>;
+  const handleLogin = (code: string) => {
+    dispatch(getAuth(code));
+  };
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div>
-      <h1>{user.username}</h1>
-      <img src={user.photo} alt={user.username} />
-      <p>{user.quote}</p>
-      <button onClick={logoutUser}>Logout</button>
+      {user ? (
+        <div>
+          <h1>Welcome, {user.username}!</h1>
+          <Image
+            src={user.photo}
+            alt={user.username + "\'s photo"}
+            width={180}
+            height={100}
+            priority
+          />
+          <p>{user.quote}</p>
+        </div>
+      ) : (
+        <div>
+          <h1>Not logged in</h1>
+          <button onClick={() => handleLogin('1234')}>Login</button>
+        </div>
+      )}
     </div>
   );
 };
