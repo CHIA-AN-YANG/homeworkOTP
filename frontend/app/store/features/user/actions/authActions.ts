@@ -1,6 +1,6 @@
-import { AuthResponse, ErrorResponse, UserData, UserResponse } from '@/app/config/model';
+import { AuthResponse, UserData, UserResponse } from '@/app/config/model';
 import axios, { AxiosError } from 'axios';
-import { setLoading, clearLoading, setError, setUser, clearUser, setAuthStatusLoading, setAuthStatusError, setAuthStatusSuccess } from '../reducers/authSliceReducer';
+import { setLoading, clearLoading, setError, setUser, clearUser, setAuthStatusLoading, setAuthStatusError, setAuthStatusSuccess, setAuthStatusIdle } from '../reducers/authSliceReducer';
 import { AppThunk } from '../../../store';
 import { get } from 'http';
 import { getVerifiedUser, postAuthToken } from '@/app/api/authAdaptor';
@@ -19,7 +19,7 @@ export const getAuth = (code: string): AppThunk => (dispatch) => {
         dispatch(getAuthSuccess((<AuthResponse>response).data.token!));
         return;
       } else if (response.status === 401 || (<AuthResponse>response).data.valid === false) {
-        dispatch(getAuthFail('code is not valid'));
+        dispatch(getAuthFail('unauthorized'));
         return;
       } else {
         dispatch(getAuthFail((<AxiosError>response).message || 'authentication failed'));
@@ -57,7 +57,7 @@ export const getUser = (): AppThunk => async (dispatch) => {
         dispatch(getUserSuccess((<UserResponse>response).data));
         return;
       } else {
-        dispatch(getUserFail((<ErrorResponse>response).data.error || 'Failed to fetch user'));
+        dispatch(getUserFail((<AxiosError>response).message || 'Failed to fetch user'));
         return;
       }
     });
@@ -85,4 +85,11 @@ export const loadUser = (): AppThunk => async (dispatch, getState) => {
   if (token && !user) {
     dispatch(getUser());
   }
+};
+
+export const logoutUser = (): AppThunk => (dispatch) => {
+  dispatch(setAuthStatusLoading());
+  Cookies.remove(TOKEN_COOKIE);
+  dispatch(clearUser());
+  dispatch(setAuthStatusIdle());
 };

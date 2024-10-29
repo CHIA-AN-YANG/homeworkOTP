@@ -1,48 +1,59 @@
 "use client";
 import Image from "next/image";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../store/store';
-import { loadUser, getAuth } from '../store/features/user/actions/authActions';
+import { loadUser, getAuth, logoutUser } from '../store/features/user/actions/authActions';
 import { selectUser, selectStatus } from '../store/features/user/selectors/authSelectors';
+import { EntityStatus } from '../config/model';
+import { useRouter } from 'next/navigation';
 
 const UserProfile = () => {
+  const [imageLoaded, setImageLoaded] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector(selectUser);
-  const loading = useSelector(selectStatus) === 'loading';
+  const status = useSelector(selectStatus);
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(loadUser());
   }, [dispatch]);
 
-  const handleLogin = (code: string) => {
-    dispatch(getAuth(code));
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    router.push('/');
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (status === EntityStatus.LOADING) return <div className="loader"></div>;
 
-  return (
-    <div>
-      {user ? (
-        <div>
-          <h1>Welcome, {user.username}!</h1>
-          <Image
-            src={user.photo}
-            alt={user.username + "\'s photo"}
-            width={180}
-            height={100}
-            priority
-          />
-          <p>{user.quote}</p>
-        </div>
-      ) : (
-        <div>
-          <h1>Not logged in</h1>
-          <button onClick={() => handleLogin('1234')}>Login</button>
-        </div>
-      )}
-    </div>
-  );
+  if (status === EntityStatus.SUCCESS) {
+    return (
+      <div className='user-profile-panel'>
+        {user && <>
+          <section className='left-panel' style={!imageLoaded ? { filter: 'brightness(0.5)' } : {}}>
+            <Image
+              src={user.photo}
+              alt={user.username + "\'s photo"}
+              width={800}
+              height={505}
+              placeholder='empty'
+              onLoad={() => setImageLoaded(true)}
+              priority
+            />
+          </section>
+          <section className='right-panel'>
+            <h2 className='welcome-txt'>Welcome, {user.username}!</h2>
+
+            <p>{user.quote}</p>
+            <div className='ctas'>
+              <a className='primary' onClick={() => handleLogout()}>Logout</a>
+            </div>
+          </section>
+
+        </>}
+      </div>
+    );
+  }
 };
 
 export default UserProfile;

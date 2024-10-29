@@ -5,7 +5,7 @@ import { getAuth } from '../store/features/user/actions/authActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../store/store';
 import { selectError, selectStatus } from '../store/features/user/selectors/authSelectors';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { EntityStatus } from '../config/model';
 interface CustomInput {
   val: string;
@@ -35,6 +35,12 @@ const OTPForm: React.FC = () => {
     inputRefs.current[focusIndex]?.focus();
   }, [inputs]);
 
+  useEffect(() => {
+    if (status === EntityStatus.SUCCESS) {
+      router.push('/profile');
+    }
+  }, [status]);
+
   const handleChange = (index: number, event: ChangeEvent) => {
     console.log('change', index, event);
     if (inputs.every(element => element.val !== '')) {
@@ -60,7 +66,7 @@ const OTPForm: React.FC = () => {
       newInputs[index] && (newInputs[index].val = event.key);
     }
     if (event.key === 'Backspace') {
-      newInputs[index - 1].val = '';
+      newInputs[index].val = '';
     }
     // check disabled
     newInputs.forEach((element, i) => {
@@ -109,12 +115,8 @@ const OTPForm: React.FC = () => {
     return nextInputs;
   };
 
-  if (status === EntityStatus.SUCCESS) {
-    router.push('/profile');
-  }
-
   if (status === EntityStatus.LOADING) {
-    return <button className="loading-btn"></button>
+    return <div className="loader"></div>
   }
 
   return (
@@ -133,7 +135,7 @@ const OTPForm: React.FC = () => {
           style={{ width: '50px', height: '100px', margin: '5px' }}
         />
       ))}
-      {(apiErrorMsg || errorMessage) && <p style={{ color: 'red' }}>{apiErrorMsg || errorMessage}</p>}
+      {(apiErrorMsg || errorMessage) && <p className='error-msg'>{apiErrorMsg || errorMessage}</p>}
     </div>
   );
 };
