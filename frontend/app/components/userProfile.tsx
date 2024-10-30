@@ -3,10 +3,10 @@ import Image from "next/image";
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../store/store';
-import { loadUser, getAuth, logoutUser } from '../store/features/user/actions/authActions';
 import { selectUser, selectStatus } from '../store/features/user/selectors/authSelectors';
 import { EntityStatus } from '../config/model';
 import { useRouter } from 'next/navigation';
+import { loadUser, logoutUser } from '../store/features/user/actions/userActions';
 
 const UserProfile = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -24,7 +24,7 @@ const UserProfile = () => {
     router.push('/');
   };
 
-  if (status === EntityStatus.LOADING) return <div className="loader"></div>;
+  if (status === EntityStatus.LOADING || status === EntityStatus.IDLE) return <div className="loader"></div>;
 
   if (status === EntityStatus.SUCCESS) {
     return (
@@ -34,8 +34,8 @@ const UserProfile = () => {
             <Image
               src={user.photo}
               alt={user.username + "\'s photo"}
-              width={800}
-              height={505}
+              width={400}
+              height={253}
               placeholder='empty'
               onLoad={() => setImageLoaded(true)}
               priority

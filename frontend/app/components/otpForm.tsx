@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, ChangeEvent, useEffect, use } from 'react';
+import React, { useState, useRef, ChangeEvent, useEffect } from 'react';
 import { getAuth } from '../store/features/user/actions/authActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../store/store';
@@ -39,31 +39,30 @@ const OTPForm: React.FC = () => {
     if (status === EntityStatus.SUCCESS) {
       router.push('/profile');
     }
-  }, [status]);
+  }, [status, router]);
 
   const handleChange = (index: number, event: ChangeEvent) => {
-    console.log('change', index, event);
     if (inputs.every(element => element.val !== '')) {
       try {
         const code = inputs.map(el => Number(el.val)).filter(num => !isNaN(num)).join('');
         submitCode(event, code);
-      } catch (error) {
-        console.log('error', error);
+        router.push('/profile');
+      } catch (e) {
+        console.error(e);
         setErrorMessage('Input values should be numbers.');
       }
     }
   };
 
   const handleKeyDown = (index: number, event: React.KeyboardEvent<HTMLInputElement>) => {
-    console.log('key down', index, event.key, typeof (event.key));
-
     const isNumber = /^[0-9]{1}$/.test(event.key);
     let newInputs = JSON.parse(JSON.stringify(inputs)) as CustomInput[];
     let focusIndex = index;
     // set value
     if (isNumber) {
-      console.log('is number');
-      newInputs[index] && (newInputs[index].val = event.key);
+      if (newInputs[index]) {
+        newInputs[index].val = event.key;
+      }
     }
     if (event.key === 'Backspace') {
       newInputs[index].val = '';
@@ -81,7 +80,6 @@ const OTPForm: React.FC = () => {
       focusIndex--;
       newInputs = setInputFocus(newInputs, focusIndex);
     }
-    console.log('new inputs', newInputs);
     setInputs(newInputs);
 
   };
@@ -103,7 +101,6 @@ const OTPForm: React.FC = () => {
   };
 
   const submitCode = async (event: React.FormEvent, code: string) => {
-    console.log('submit code:' + code);
     dispatch(getAuth(code));
   };
 
@@ -115,7 +112,7 @@ const OTPForm: React.FC = () => {
     return nextInputs;
   };
 
-  if (status === EntityStatus.LOADING) {
+  if (status === EntityStatus.LOADING || status === EntityStatus.SUCCESS) {
     return <div className="loader"></div>
   }
 

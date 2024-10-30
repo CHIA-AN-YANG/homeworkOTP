@@ -1,5 +1,3 @@
-import { AxiosError } from 'axios';
-
 export interface UserData {
   username: string;
   photo: string;
@@ -8,9 +6,9 @@ export interface UserData {
 
 export interface AuthState {
   user: UserData | null;
-  loading: boolean;
   error: string | null;
-  authStatus: EntityStatus;
+  loading: boolean;
+  status: EntityStatus;
 }
 
 export interface AuthResponse extends Response {
@@ -24,9 +22,16 @@ export interface UserResponse extends Response {
   data: UserData
 }
 
+export type EntityState<T> = {
+  value: T | null;
+  status: EntityStatus;
+  error: string | null;
+}
+
 export enum EntityStatus {
   LOADING = 'loading',
   SUCCESS = 'success',
   ERROR = 'error',
   IDLE = 'idle'
 }
+

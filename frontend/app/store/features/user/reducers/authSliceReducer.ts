@@ -4,61 +4,58 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: AuthState = {
   user: null,
-  loading: false,
   error: null,
-  authStatus: EntityStatus.IDLE,
+  loading: false,
+  status: EntityStatus.IDLE,
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setLoading: (state) => {
-      state.loading = true;
-      state.error = null;
-    },
-    clearLoading: (state) => {
-      state.loading = false;
-    },
-    setError: (state, action: PayloadAction<string>) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
     setUser: (state, action: PayloadAction<UserData>) => {
       state.user = action.payload;
-      state.loading = false;
       state.error = null;
     },
     clearUser: (state) => {
       state.user = null;
+    },
+    setError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+    },
+    clearError: (state) => {
       state.error = null;
     },
-    setAuthStatusSuccess: (state) => {
-      state.authStatus = EntityStatus.SUCCESS;
+    setLoader: (state) => {
+      state.loading = true;
     },
-    setAuthStatusError: (state) => {
-      state.authStatus = EntityStatus.ERROR;
+    clearLoader: (state) => {
+      state.loading = false;
     },
-    setAuthStatusLoading: (state) => {
-      state.authStatus = EntityStatus.LOADING;
+    setStatusSuccess: (state) => {
+      state.status = EntityStatus.SUCCESS;
     },
-    setAuthStatusIdle: (state) => {
-      state.authStatus = EntityStatus.IDLE;
+    setStatusError: (state) => {
+      state.status = EntityStatus.ERROR;
+    },
+    setStatusLoading: (state) => {
+      state.status = EntityStatus.LOADING;
+    },
+    setStatusIdle: (state) => {
+      state.status = EntityStatus.IDLE;
     },
 
   },
 });
 
 export const {
-  setLoading,
-  clearLoading,
   setError,
   setUser,
   clearUser,
-  setAuthStatusSuccess,
-  setAuthStatusError,
-  setAuthStatusLoading,
-  setAuthStatusIdle
+  setStatusSuccess,
+  setStatusError,
+  setStatusLoading,
+  setStatusIdle
 } = authSlice.actions;
 
 export default authSlice.reducer;

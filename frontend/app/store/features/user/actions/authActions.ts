@@ -1,19 +1,15 @@
-import { AuthResponse, UserData, UserResponse } from '@/app/config/model';
-import axios, { AxiosError } from 'axios';
-import { setLoading, clearLoading, setError, setUser, clearUser, setAuthStatusLoading, setAuthStatusError, setAuthStatusSuccess, setAuthStatusIdle } from '../reducers/authSliceReducer';
+import { AuthResponse } from '@/app/config/model';
+import { AxiosError } from 'axios';
+import { setError, setStatusLoading, setStatusError, setStatusSuccess } from '../reducers/authSliceReducer';
 import { AppThunk } from '../../../store';
-import { get } from 'http';
-import { getVerifiedUser, postAuthToken } from '@/app/api/authAdaptor';
-
+import { postAuthToken } from '@/app/api/authAdaptor';
 const Cookies = require('js-cookie');
 const TOKEN_COOKIE = 'auth_token';
 
 export const getAuth = (code: string): AppThunk => (dispatch) => {
   try {
-    dispatch(setLoading());
-    dispatch(setAuthStatusLoading());
+    dispatch(setStatusLoading());
     postAuthToken(code).then((response) => {
-      console.log('response', response);
 
       if (response.status === 200 && (<AuthResponse>response).data.valid === true) {
         dispatch(getAuthSuccess((<AuthResponse>response).data.token!));
@@ -33,63 +29,11 @@ export const getAuth = (code: string): AppThunk => (dispatch) => {
 
 export const getAuthSuccess = (token: string): AppThunk => (dispatch) => {
   Cookies.set(TOKEN_COOKIE, token);
-  dispatch(clearLoading());
-  dispatch(setAuthStatusSuccess());
+  dispatch(setStatusSuccess());
 };
 
 export const getAuthFail = (errorMessage: string): AppThunk => (dispatch) => {
   console.error('Auth Error:', errorMessage);
   dispatch(setError(errorMessage));
-  dispatch(setAuthStatusError());
-};
-
-export const getUser = (): AppThunk => async (dispatch) => {
-  try {
-    dispatch(setLoading());
-    dispatch(setAuthStatusLoading());
-    const token = Cookies.get(TOKEN_COOKIE);
-    if (!token) {
-      dispatch(getUserFail('No token found'));
-      return;
-    }
-    getVerifiedUser(token).then((response) => {
-      if (response.status === 200) {
-        dispatch(getUserSuccess((<UserResponse>response).data));
-        return;
-      } else {
-        dispatch(getUserFail((<AxiosError>response).message || 'Failed to fetch user'));
-        return;
-      }
-    });
-  } catch (error) {
-    dispatch(getUserFail(error instanceof Error ? error.message : 'Failed to fetch user'));
-  }
-};
-
-export const getUserSuccess = (userData: UserData): AppThunk => (dispatch) => {
-  dispatch(setUser(userData));
-  dispatch(setAuthStatusSuccess());
-};
-
-export const getUserFail = (errorMessage: string): AppThunk => (dispatch) => {
-  console.error('User Error:', errorMessage);
-  dispatch(clearUser());
-  dispatch(setError(errorMessage));
-  dispatch(setAuthStatusError());
-};
-
-export const loadUser = (): AppThunk => async (dispatch, getState) => {
-  const token = Cookies.get(TOKEN_COOKIE);
-  const { user } = getState().auth;
-
-  if (token && !user) {
-    dispatch(getUser());
-  }
-};
-
-export const logoutUser = (): AppThunk => (dispatch) => {
-  dispatch(setAuthStatusLoading());
-  Cookies.remove(TOKEN_COOKIE);
-  dispatch(clearUser());
-  dispatch(setAuthStatusIdle());
+  dispatch(setStatusError());
 };

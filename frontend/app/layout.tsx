@@ -14,7 +14,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "AnnaSoft | verification code",
+  title: 'verification code',
   description: "verification code entering page",
   robots: "noindex, nofollow",
 };
