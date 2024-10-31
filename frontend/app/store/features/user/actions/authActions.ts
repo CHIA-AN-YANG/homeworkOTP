@@ -1,4 +1,4 @@
-import { AuthResponse } from '@/app/config/model';
+import { AuthResponse } from '@/app/model/model';
 import { AxiosError } from 'axios';
 import { setError, setStatusLoading, setStatusError, setStatusSuccess } from '../reducers/authSliceReducer';
 import { AppThunk } from '../../../store';
@@ -14,8 +14,8 @@ export const getAuth = (code: string): AppThunk => (dispatch) => {
       if (response.status === 200 && (<AuthResponse>response).data.valid === true) {
         dispatch(getAuthSuccess((<AuthResponse>response).data.token!));
         return;
-      } else if (response.status === 401 || (<AuthResponse>response).data.valid === false) {
-        dispatch(getAuthFail('unauthorized'));
+      } else if ((<AuthResponse>response).data && (<AuthResponse>response).data.valid === false) {
+        dispatch(getAuthFail('Invalid code'));
         return;
       } else {
         dispatch(getAuthFail((<AxiosError>response).message || 'authentication failed'));
@@ -33,7 +33,6 @@ export const getAuthSuccess = (token: string): AppThunk => (dispatch) => {
 };
 
 export const getAuthFail = (errorMessage: string): AppThunk => (dispatch) => {
-  console.error('Auth Error:', errorMessage);
   dispatch(setError(errorMessage));
   dispatch(setStatusError());
 };

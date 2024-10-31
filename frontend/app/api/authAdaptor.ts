@@ -1,9 +1,8 @@
 import axios, { AxiosError } from 'axios';
-import { AuthResponse, UserResponse } from '../config/model';
-import { CONFIG } from '../config/environment';
+import { AuthResponse, UserResponse } from '../model/model';
 import crypto from 'crypto';
 
-const apiUrl = CONFIG.API_URL + ":" + CONFIG.API_PORT;
+const apiUrl = process.env.NEXT_PUBLIC_API_URL + ":" + process.env.NEXT_PUBLIC_API_PORT;
 
 export const postAuthToken = async (code: string): Promise<AuthResponse | AxiosError> => {
   const hashedCode = await hashCode(code);

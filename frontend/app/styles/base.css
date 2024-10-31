@@ -44,6 +44,7 @@ input {
 }
 
 .error-msg {
+  width: 240px;
   font-size: 1rem;
   font-family: var(--font-geist-mono);
   text-align: left;

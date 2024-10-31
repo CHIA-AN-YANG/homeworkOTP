@@ -1,3 +1,4 @@
+"use client";
 import UserProfile from '../components/userProfile';
 import { Provider } from 'react-redux';
 import { store } from '../store/store';

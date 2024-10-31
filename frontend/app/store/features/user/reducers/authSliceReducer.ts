@@ -1,4 +1,4 @@
-import { AuthState, EntityStatus, UserData } from '@/app/config/model';
+import { AuthState, EntityStatus, UserData } from '@/app/model/model';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 

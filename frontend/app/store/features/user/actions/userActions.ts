@@ -1,5 +1,5 @@
 import { getVerifiedUser } from '@/app/api/authAdaptor';
-import { UserResponse, UserData } from '@/app/config/model';
+import { UserResponse, UserData } from '@/app/model/model';
 import { AppThunk } from '@/app/store/store';
 import { AxiosError } from 'axios';
 import { setStatusLoading, setUser, setStatusSuccess, clearUser, setError, setStatusError, setStatusIdle } from '../reducers/authSliceReducer';
@@ -35,7 +35,6 @@ export const getUserSuccess = (userData: UserData): AppThunk => (dispatch) => {
 };
 
 export const getUserFail = (errorMessage: string): AppThunk => (dispatch) => {
-  console.error('User Error:', errorMessage);
   dispatch(clearUser());
   dispatch(setError(errorMessage));
   dispatch(setStatusError());

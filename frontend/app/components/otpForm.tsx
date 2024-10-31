@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../store/store';
 import { selectError, selectStatus } from '../store/features/user/selectors/authSelectors';
 import { useRouter } from 'next/navigation';
-import { EntityStatus } from '../config/model';
+import { EntityStatus } from '../model/model';
 interface CustomInput {
   val: string;
   disabled: boolean;
@@ -46,9 +46,7 @@ const OTPForm: React.FC = () => {
       try {
         const code = inputs.map(el => Number(el.val)).filter(num => !isNaN(num)).join('');
         submitCode(event, code);
-        router.push('/profile');
       } catch (e) {
-        console.error(e);
         setErrorMessage('Input values should be numbers.');
       }
     }
@@ -113,7 +111,11 @@ const OTPForm: React.FC = () => {
   };
 
   if (status === EntityStatus.LOADING || status === EntityStatus.SUCCESS) {
-    return <div className="loader"></div>
+    return (
+      <>
+        <div className="loader"></div>
+        <p>{(status === EntityStatus.LOADING) ? `${EntityStatus.LOADING}...` : "code authenticated..."}</p>
+      </>);
   }
 
   return (
