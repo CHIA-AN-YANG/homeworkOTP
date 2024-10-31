@@ -11,7 +11,7 @@
       yarn install && \
       yarn build
     """
-    publish = "frontend/dist" 
+    publish = "frontend/out" 
     node_version = "20.18.0"  
 
   # Development build settings (optional)
@@ -24,7 +24,7 @@
       yarn install && \
       yarn build
     """
-    publish = "frontend/dist"
+    publish = "frontend/out"
 
 # Proxy settings for the API
 [[redirects]]
@@ -51,3 +51,4 @@
 # Environment variables (optional)
 [build.environment]
   NODE_ENV = "production"
+  NETLIFY_USE_YARN = "true"

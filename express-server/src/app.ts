@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import authRoutes from './routes';
-import { CONFIG } from './config/config';
 import { logger } from './utils/logger';
 require('dotenv').config();
 

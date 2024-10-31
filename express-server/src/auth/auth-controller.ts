@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { AuthenticatedRequest } from './auth-middleware';
-import { VerificationResponse, VerificationRequest, UserData } from '../model/interface';
-import { logger } from '../utils/logger';
+import { AuthenticatedRequest } from './auth-middleware.js';
+import { VerificationResponse, VerificationRequest, UserData } from '../model/interface.js';
+import { logger } from '../utils/logger.js';
 import crypto from 'node:crypto';
 
 export class AuthController {
