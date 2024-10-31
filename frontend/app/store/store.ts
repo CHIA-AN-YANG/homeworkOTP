@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { ThunkAction, Action } from '@reduxjs/toolkit';
-import authReducer from '@/app/store/features/user/reducers/authSliceReducer';
+import authReducer from './features/user/reducers/authSliceReducer';
 import { AuthState } from '../model/model';
 
 declare global {
   interface Window {
-    __INITIAL_STATE__: any;
+    __INITIAL_STATE__: { auth: AuthState };
   }
 }
 

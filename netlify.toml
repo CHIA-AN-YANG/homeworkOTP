@@ -1,0 +1,53 @@
+[build]
+  base = "/"
+  
+  # Frontend build settings
+  [context.production]
+    command = """
+      cd frontend && \
+      yarn install && \
+      yarn build && \
+      cd ../express-server && \
+      yarn install && \
+      yarn build
+    """
+    publish = "frontend/dist" 
+    node_version = "20.18.0"  
+
+  # Development build settings (optional)
+  [context.deploy-preview]
+    command = """
+      cd frontend && \
+      yarn install && \
+      yarn build && \
+      cd ../express-server && \
+      yarn install && \
+      yarn build
+    """
+    publish = "frontend/dist"
+
+# Proxy settings for the API
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+# SPA fallback
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers for security (optional but recommended)
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: https:; connect-src 'self' https:;"
+
+# Environment variables (optional)
+[build.environment]
+  NODE_ENV = "production"

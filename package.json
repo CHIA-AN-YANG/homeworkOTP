@@ -1,0 +1,19 @@
+{
+  "name": "anna-homework",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "express-server"
+  ],
+  "engines": {
+    "node": "20.18.0"
+  },
+  "dependencies": {
+    "serverless-http": "^3.1.1"
+  },
+  "scripts": {
+    "build": "cd frontend && yarn build && cd ../express-server && yarn build",
+    "start": "cd frontend && yarn start && cd ../express-server && yarn start"
+  }
+}

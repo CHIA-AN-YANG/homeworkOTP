@@ -25,7 +25,7 @@ const UserProfile = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    status === EntityStatus.ERROR && router.push('/');
+    if (status === EntityStatus.ERROR) { router.push('/') };
   }, [status, router]);
 
   const handleLogout = () => {

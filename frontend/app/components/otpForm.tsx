@@ -46,8 +46,9 @@ const OTPForm: React.FC = () => {
       try {
         const code = inputs.map(el => Number(el.val)).filter(num => !isNaN(num)).join('');
         submitCode(event, code);
-      } catch (e) {
+      } catch (error: unknown) {
         setErrorMessage('Input values should be numbers.');
+        return error;
       }
     }
   };
