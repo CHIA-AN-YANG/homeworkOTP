@@ -72,6 +72,7 @@ const UserProfile = () => {
 
               <div>
                 <p><em>"{user.quote}"</em></p>
+                <br />
                 <p>{user.desc}</p>
               </div>
 

@@ -6,7 +6,7 @@ import { store } from './store/store';
 export default function Home() {
   return (
     <div className="page">
-      <h1 className="secondary">Verification Code</h1>
+      <h1 className="secondary">Enter Verification</h1>
       <main className="main">
         <Provider store={store}>
           <OTPForm />
