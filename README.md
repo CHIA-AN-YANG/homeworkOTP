@@ -8,11 +8,12 @@ Demo site deployed on Netlify: [https://verification-code-1234.netlify.app/](htt
 ## Start Repo
 
 ### Prerequisite
-If yarn is not installed, please do `npm install -g yarn` or `sudo npm install -g yarn`
-Use NodeJs v20.18.0 for runtime environment
+If yarn is not installed, please run `npm install -g yarn` in terminal or `sudo npm install -g yarn`.
+
+Use node **v20.18.0** for runtime environment.
 
 ### Run in local
-1. Create your own `.env` file under `/express-server` and `/frontend`, using `.env.example` as the rreference
+1. Create your own `.env` file under `/express-server` and `/frontend`, using `.env.example` as reference
 
 2. Start express-server for backend 
 ```bash
@@ -21,7 +22,7 @@ yarn install
 yarn build
 yarn start
 ```
-This should print the following result: `[INFO] Server is running on port 4000`
+This should print the following result: `[INFO] Server is running on port <port>`
 
 3. Start frontend for frontend
 ```bash
@@ -38,8 +39,8 @@ This should print the following result:
    │                                          │
    │   Serving!                               │
    │                                          │
-   │   - Local:    http://localhost:<port>      │
-   │   - Network:  http://192.168.0.30:<port>   │
+   │   - Local:    http://localhost:<port>    │
+   │   - Network:  http://192.168.0.30:<port> │
    │                                          │
    │   Copied local address to clipboard!     │
    │                                          │
@@ -50,9 +51,9 @@ Run `yarn dev` under frontend or express-server folder for development
 
 
 ## Netlify Test
-This app is designed to deploy on Netlify, and can be locally tested with netlify-cli.
+This app is designed to deploy on [Netlify](https://www.netlify.com/), and can be locally tested with netlify-cli.
 
-Move `.env` file in express-server to root folder so that api.mjs is able to load it.
+Move `.env` file in express-server to root folder so that `api.mjs` is able to load it.
 
 ### Install Netlify CLI
 ```bash
