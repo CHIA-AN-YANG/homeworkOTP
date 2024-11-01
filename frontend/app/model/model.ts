@@ -1,6 +1,7 @@
 export interface UserData {
   username: string;
   photo: string;
+  desc: string;
   quote: string;
 }
 

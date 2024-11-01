@@ -38,7 +38,8 @@ export class AuthController {
     try {
       const userData: UserData = {
         username: 'Ryan Reynolds',
-        quote: 'Ryan Rodney Reynolds OBC (born October 23, 1976) is a Canadian and American actor, producer, and businessman. ',
+        desc: 'Ryan Rodney Reynolds OBC (born October 23, 1976) is a Canadian and American actor, producer, and businessman.',
+        quote: 'The more you know who you are, and what you want, the less you let things upset you.',
         photo: 'https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2161673894.jpg'
       };
 

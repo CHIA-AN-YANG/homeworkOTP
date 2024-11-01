@@ -48,21 +48,33 @@ const UserProfile = () => {
       <div className='user-profile-panel'>
         {user &&
           <>
-            <section className='left-panel' style={!imageLoaded ? { filter: 'brightness(0.5)' } : {}}>
-              <Image
-                src={user.photo}
-                alt={user.username + "\'s photo"}
-                width={400}
-                height={253}
-                placeholder='empty'
-                onLoad={() => setImageLoaded(true)}
-                priority
-              />
+            <section className='left-panel' style={(imageLoaded || window.location.hostname.includes('netlify')) ? {} : { filter: 'brightness(0.5)' }}>
+
+              {window.location.hostname.includes('netlify') ?
+                <img src={user.photo} alt={user.username + "\'s photo"} />
+                :
+                <Image
+                  src={user.photo}
+                  alt={user.username + "\'s photo"}
+                  placeholder='empty'
+                  width={400}
+                  height={253}
+                  onLoad={() => setImageLoaded(true)}
+                  priority
+                />
+              }
             </section>
             <section className='right-panel'>
-              <h2 className='welcome-txt'>Welcome, {user.username}!</h2>
+              <div>
+                <h2 className='welcome-txt'>Welcome, {user.username}!</h2>
+                <hr />
+              </div>
 
-              <p>{user.quote}</p>
+              <div>
+                <p><em>"{user.quote}"</em></p>
+                <p>{user.desc}</p>
+              </div>
+
               <div className='ctas'>
                 <a className='primary' onClick={() => handleLogout()}>Logout</a>
               </div>

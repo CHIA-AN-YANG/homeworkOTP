@@ -9,6 +9,7 @@ export interface VerificationResponse {
 
 export interface UserData {
   username: string;
+  desc: string;
   quote: string;
   photo: string;
 }
