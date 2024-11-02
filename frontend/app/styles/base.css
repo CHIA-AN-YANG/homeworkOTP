@@ -43,12 +43,22 @@ input {
   text-align: center;
 }
 
-.error-msg {
-  width: 240px;
+.error-msg,
+.loading-msg {
+  height: 1rem;
   font-size: 1rem;
   font-family: var(--font-geist-mono);
-  text-align: left;
   padding: 0.5rem;
+  text-align: left;
+}
+
+.loading-msg {
+  width: 120px;
+  text-wrap: nowrap;
+}
+
+.error-msg {
+  width: 240px;
   color: var(--error-c);
 }
 

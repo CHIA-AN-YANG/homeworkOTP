@@ -10,6 +10,8 @@ Demo site deployed on Netlify: [https://verification-code-1234.netlify.app/](htt
 ### Prerequisite
 If yarn is not installed, please run `npm install -g yarn` in terminal or `sudo npm install -g yarn`.
 
+If typescript is not installed, please also run `npm install -g typescript` so that `tsc` command can be used globally.
+
 Use node **v20.18.0** for runtime environment.
 
 ### Run in local

@@ -20,7 +20,7 @@ const defaultInputs: CustomInput[] = [
 ];
 
 const OTPForm: React.FC = () => {
-
+  const [isClient, setIsClient] = useState(false);
   const [inputs, setInputs] = useState<CustomInput[]>(defaultInputs);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -29,6 +29,9 @@ const OTPForm: React.FC = () => {
   const apiErrorMsg = useSelector(selectError) as string;
   const router = useRouter();
 
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     const focusIndex = inputs.findIndex(element => element.focus);
@@ -40,6 +43,12 @@ const OTPForm: React.FC = () => {
       router.push('/profile');
     }
   }, [status, router]);
+
+  useEffect(() => {
+    if (apiErrorMsg && apiErrorMsg.includes('401')) {
+      setErrorMessage("The code you enter is not valid.");
+    }
+  }, [apiErrorMsg]);
 
   const handleChange = (index: number, event: ChangeEvent) => {
     if (inputs.every(element => element.val !== '')) {
@@ -115,9 +124,13 @@ const OTPForm: React.FC = () => {
     return (
       <>
         <div className="loader"></div>
-        <p>{(status === EntityStatus.LOADING) ? `${EntityStatus.LOADING}...` : "code authenticated..."}</p>
+        <p className="loading-msg">{
+          (status === EntityStatus.LOADING) ? `${EntityStatus.LOADING}...` : "code authenticated..."
+        }</p>
       </>);
   }
+
+  if (!isClient) return null;
 
   return (
     <div>
@@ -135,7 +148,7 @@ const OTPForm: React.FC = () => {
           style={{ width: '50px', height: '100px', margin: '5px' }}
         />
       ))}
-      {(apiErrorMsg || errorMessage) && <p className='error-msg'>{apiErrorMsg || errorMessage}</p>}
+      <p className='error-msg'>{errorMessage || apiErrorMsg}</p>
     </div>
   );
 };
