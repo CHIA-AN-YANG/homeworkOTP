@@ -1,0 +1,10 @@
+# Common
+.git
+.gitignore
+.env
+README.md
+
+# Frontend
+node_modules
+.next
+.netlify

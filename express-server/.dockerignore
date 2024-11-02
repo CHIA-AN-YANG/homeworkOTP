@@ -1,0 +1,10 @@
+# Common
+.git
+.gitignore
+.env
+README.md
+
+# Express server
+node_modules
+dist
+.netlify
