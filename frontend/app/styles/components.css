@@ -1,8 +1,8 @@
 .user-profile-panel {
   border-radius: 3rem;
   border: 1px solid black;
-  width: min(600px, 90vw);
-  height: 50vh;
+  width: min(640px, 90vw);
+  height: Max(50vh, 400px);
   display: flex;
   justify-content: space-between;
   overflow: hidden;
@@ -72,6 +72,11 @@ section {
   margin-bottom: 1em;
 }
 
+.right-panel .intro {
+  max-height: 240px;
+  overflow-y: scroll;
+}
+
 @media (max-width: 600px) {
   .user-profile-panel {
     flex-direction: column;
@@ -90,6 +95,11 @@ section {
   .right-panel {
     align-items: center;
     padding: 2rem 2rem 2.4rem 2rem;
+  }
+
+  .right-panel .intro {
+    max-height: unset;
+    overflow-y: unset;
   }
 
   .right-panel p {

@@ -47,6 +47,10 @@ export const loadUser = (): AppThunk => async (dispatch, getState) => {
   if (token && !user) {
     dispatch(getUser());
   }
+  if (!token) {
+    dispatch(clearUser());
+    dispatch(setStatusError());
+  }
 };
 
 export const logoutUser = (): AppThunk => (dispatch) => {

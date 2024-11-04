@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @next/next/no-img-element*/
 import Image from "next/image";
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -43,7 +44,7 @@ const UserProfile = () => {
   );
 
   if (status === EntityStatus.SUCCESS) {
-    if (!user) return <div className="loader"></div>;
+    if (!user) router.push('/404');
     return (
       <div className='user-profile-panel'>
         {user &&
@@ -70,8 +71,8 @@ const UserProfile = () => {
                 <hr />
               </div>
 
-              <div>
-                <p><em>"{user.quote}"</em></p>
+              <div className="intro">
+                <p><em>&ldquo;{user.quote}&rdquo;</em></p>
                 <br />
                 <p>{user.desc}</p>
               </div>
@@ -85,6 +86,8 @@ const UserProfile = () => {
       </div >
     );
   }
+
+  return <div className="loader"></div>;
 };
 
 export default UserProfile;

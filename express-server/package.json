@@ -1,7 +1,9 @@
 {
   "name": "express-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "providing mock backend",
+  "private": true,
+  "license": "UNLICENSED",
   "main": "dist/app.mjs",
   "scripts": {
     "start": "node dist/app.js",

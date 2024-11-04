@@ -22,6 +22,7 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
 });
 
 // Start server
-app.listen(process.env.PORT, () => { logger.info(`Server is running on port ${process.env.PORT}`); });
+const port = process.env.PORT || 4000;
+app.listen(port, () => { logger.info(`Server is running on port ${port}`); });
 
 module.exports = app;
