@@ -78,6 +78,9 @@ const OTPForm: React.FC = () => {
     // check disabled
     newInputs.forEach((element, i) => {
       element.disabled = (i > 0 && newInputs[i - 1].val === '');
+      if (!element.disabled && i > 0) {
+        newInputs[i - 1].disabled = false;
+      }
     });
     // set focus
     if (((event.key === 'ArrowRight') || isNumber) && index < newInputs.length - 1) {
