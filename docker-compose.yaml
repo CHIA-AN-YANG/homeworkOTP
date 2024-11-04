@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  express-server:
+    build:
+      context: ./express-server
+      dockerfile: Dockerfile
+    container_name: express-backend
+    working_dir: /backend-app
+    env_file: ./express-server/.env
+    ports:
+      - "4000:4000"
+    command: yarn start
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+      - /backend-app/node_modules
+      - /backend-app/dist
+      - /backend-app/.netlify
+      - /frontend-app/node_modules
+      - /frontend-app/.next
+      - /frontend-app/.netlify
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: nextjs-frontend
+    working_dir: /frontend-app
+    ports:
+      - "3000:3000"
+    command: yarn start
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+      - /backend-app/node_modules
+      - /backend-app/dist
+      - /backend-app/.netlify
+      - /frontend-app/node_modules
+      - /frontend-app/.next
+      - /frontend-app/.netlify
+    depends_on:
+      - express-server

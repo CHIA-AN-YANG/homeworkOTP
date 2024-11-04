@@ -51,7 +51,10 @@ This should print the following result:
 ## Development
 Run `yarn dev` under frontend or express-server folder for development
 
-
+## Run Docker
+```bash
+docker-compose run
+```
 ## Netlify Test
 This app is designed to deploy on [Netlify](https://www.netlify.com/), and can be locally tested with netlify-cli.
 
