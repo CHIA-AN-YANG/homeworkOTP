@@ -1,7 +1,6 @@
 # Common
 .git
 .gitignore
-.env
 README.md
 
 # Express server

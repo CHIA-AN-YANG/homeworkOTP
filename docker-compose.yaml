@@ -7,11 +7,12 @@ services:
       dockerfile: Dockerfile
     container_name: express-backend
     working_dir: /backend-app
+    env_file: ./express-server/.env
     ports:
       - "4000:4000"
     command: yarn start
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
     volumes:
       - .:/app
       - /backend-app/node_modules

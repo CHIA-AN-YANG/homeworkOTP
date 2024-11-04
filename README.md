@@ -53,12 +53,7 @@ Run `yarn dev` under frontend or express-server folder for development
 
 ## Run Docker
 ```bash
-docker-compose up -e NEXT_PUBLIC_API_URL=http:\/\/localhost -e
-  JWT_SECRET=secret -e VERIFICATION_CODE=0000
-```
-Or, Use docker secrets (recommended for production)
-```
-docker-compose --env-file ./production.env up
+docker-compose run
 ```
 ## Netlify Test
 This app is designed to deploy on [Netlify](https://www.netlify.com/), and can be locally tested with netlify-cli.
